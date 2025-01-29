@@ -27,11 +27,18 @@ Modify the `vite.config.ts` file to set up the development server:
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
+// https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  preview: {
+    port: 3000,
+    strictPort: true,
+  },
   server: {
-    host: "0.0.0.0", // Allows access from any IP
-    port: 5173, // Runs the development server on port 5173
+    port: 3000,
+    strictPort: true,
+    host: true,
+    origin: "http://0.0.0.0 3000",
   },
 });
 ```
@@ -55,7 +62,7 @@ RUN npm install
 COPY . .
 
 # Expose the development server port
-EXPOSE 5173
+EXPOSE 3000
 
 # Start the development server
 CMD ["npm", "run", "dev"]
@@ -90,15 +97,15 @@ This command lists all available Docker images.
 To run the container in detached mode and map port 8000 on the host to 5173 in the container:
 
 ```sh
-docker run -d -p 8000:5173 blog-frontend
+docker run -d -p 3000:3000 blog-frontend
 ```
 
 Explanation:
 
 - `-d` runs the container in detached mode (in the background).
-- `-p 8000:5173` maps port 8000 of the host to port 5173 inside the container.
+- `-p 3000:3000` maps port 8000 of the host to port 5173 inside the container.
 - `blog-frontend` is the name of the image being run.
 
 ## Step 8: Access the Application
 
-Once the container is running, open `http://localhost:8000` in your browser to access the Vite app.
+Once the container is running, open `http://localhost:3000` in your browser to access the Vite app.
